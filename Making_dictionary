@@ -1,0 +1,49 @@
+import sys
+ 
+def usage():
+	print("Usage: %s <text_file> <words_file> <out_file>" % sys.argv[0])
+
+
+def read_words_file(words_file):
+	words = []
+	with open(words_file) as f:
+		for line in f:
+			for word in line.rstrip().split():
+				words.append(word)
+	return words
+
+
+def add_to_dictionary(word, dictionary):
+	if word in dictionary:
+		dictionary[word] += 1
+#	else:
+#		dictionary[word] = 0
+
+
+if __name__ == '__main__':
+	if len(sys.argv) != 4:
+		usage()
+#		exit(1)
+
+	text_file  = sys.argv[1]
+	words_file = sys.argv[2]
+	out_file   = sys.argv[3]
+
+	dictionary = dict.fromkeys(read_words_file(words_file), 0)
+#	print(dictionary)
+
+	words = read_words_file(words_file)
+	with open(text_file) as current_file, open(out_file, 'w') as out_file:
+		for line in current_file:
+			for word in line.rstrip().split():			
+				last_letter = word[-1]
+				if last_letter.isalpha():
+					add_to_dictionary(word, dictionary)
+				else:	
+					new_word = ''
+					for letter in word:
+						if letter != last_letter:
+							new_word += letter
+					add_to_dictionary(new_word, dictionary)
+		for x in dictionary:
+			out_file.write(x + ' . ' + str(dictionary[x]) + '\n')			
