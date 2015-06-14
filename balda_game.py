@@ -314,11 +314,11 @@ def computer(current_word):
 	leng = len(current_word[0])
 	current_word_numbers = []
 	current_word[0] = ''
-	if counter[0] != x_number[0]:
+	if counter[0] % x_number[0] != 0:
 		length = (random.randrange(100) % 3 - 1) + leng
 	else:
-		if abs(points[0] - points[1]) > 3:
-			length = abs(points[0] - points[1])
+		if points[0] - points[1] > 3:
+			length = points[0] - points[1]
 		else:
 			length = 3
 	if length > 9:
@@ -373,7 +373,7 @@ def add_letter_to_word_computer(number, word, length):
 			else:
 				new = [word[0] + letters[x], word[1]]
 				new[1].append(x)
-#				print(new)
+				print(new)
 				if len(new[0]) < length:
 					add_letter_to_word_computer(x, new, length)
 				else:
@@ -383,9 +383,11 @@ def add_letter_to_word_computer(number, word, length):
 						else:
 							if computers_word_number[0] in new[1]:
 								if dictionary[new[0]] > dictionary[computers_word[0]]:
+									print(new)
 									computers_word[0] = new[0]
 									computers_word[1] = computers_word_number[0]
 									computers_word[2] = computers_word_letter[0]
+									print(computers_word_number)
 
 
 
@@ -413,10 +415,11 @@ def victory(mode):
 	if mode[2] == 'computer':
 		if points[0] == points[1]:
 			error_messege(root, 'Игра окончена \n Ничья')
-		if points[0] < points[1]:
-			error_messege(root, 'Игра окончена \n Вы проиграли')
 		else:
-			error_messege(root, 'Игра окончена \n Вы победили')	
+			if points[0] < points[1]:
+				error_messege(root, 'Игра окончена \n Вы проиграли')
+			else:
+				error_messege(root, 'Игра окончена \n Вы победили')	
 	else:
 		if points[0] == points[1]:
 			error_messege(root, 'Игра окончена \n Ничья')
